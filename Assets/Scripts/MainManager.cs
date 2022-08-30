@@ -9,6 +9,7 @@ public class MainManager : MonoBehaviour
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
+    public GameObject headerText;
 
     public Text ScoreText;
     public GameObject GameOverText;
@@ -59,6 +60,19 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+        }
+
+        UpdateHighScore();
+    }
+
+    void UpdateHighScore()
+    {
+        headerText.GetComponent<Text>().text = "Best player: " + DataManager.Instance.bestPlayerName + ". Best score: " + DataManager.Instance.maxScore + ".";
+        if (m_Points > DataManager.Instance.maxScore)
+        {
+            DataManager.Instance.bestPlayerName = DataManager.Instance.playerName;
+            DataManager.Instance.maxScore = m_Points;
+            DataManager.Instance.SaveScore(m_Points, DataManager.Instance.playerName);
         }
     }
 
